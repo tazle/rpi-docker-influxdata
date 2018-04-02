@@ -5,8 +5,8 @@ RUN gpg \
     --recv-keys 05CE15085FC09D18E99EFB22684A14CF2582E0C5
 
 ENV INFLUXDB_VERSION 1.4.3
-RUN wget -q https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_armhf.deb.asc && \
-    wget -q https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_armhf.deb && \
+RUN curl -O https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_armhf.deb.asc && \
+    curl -O https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_armhf.deb && \
     gpg --batch --verify influxdb_${INFLUXDB_VERSION}_armhf.deb.asc influxdb_${INFLUXDB_VERSION}_armhf.deb && \
     dpkg -i influxdb_${INFLUXDB_VERSION}_armhf.deb && \
     rm -f influxdb_${INFLUXDB_VERSION}_armhf.deb*
