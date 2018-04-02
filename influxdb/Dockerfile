@@ -1,8 +1,12 @@
 FROM resin/rpi-raspbian:stretch
 
-RUN gpg \
-    --keyserver hkp://ha.pool.sks-keyservers.net \
-    --recv-keys 05CE15085FC09D18E99EFB22684A14CF2582E0C5
+RUN for server in $(shuf -e ha.pool.sks-keyservers.net \
+                            hkp://p80.pool.sks-keyservers.net:80 \
+                            keyserver.ubuntu.com \
+                            hkp://keyserver.ubuntu.com:80 \
+                            pgp.mit.edu) ; do \
+        gpg --keyserver "$server" --recv-keys 05CE15085FC09D18E99EFB22684A14CF2582E0C5 && break || : ; \
+    done
 
 ENV INFLUXDB_VERSION 1.4.3
 RUN curl -O https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_armhf.deb.asc && \
